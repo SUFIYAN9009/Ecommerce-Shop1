@@ -1,0 +1,88 @@
+{% extends 'header_footer.html' %}
+
+{% block base %}
+
+<div class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center px-3 sm:px-6 py-6">
+
+  <div class="bg-white shadow-2xl rounded-3xl w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+
+    <!-- LEFT SIDE IMAGE -->
+    <div class="bg-gray-100 flex flex-col items-center justify-center p-6">
+
+      {% if product.image %}
+      <img src="{{ product.image.url }}"
+           class="w-full h-72 object-cover rounded-xl shadow">
+      {% else %}
+      <div class="text-gray-400">No Image</div>
+      {% endif %}
+
+      <h3 class="mt-4 text-lg font-bold text-center">
+        {{ product.name }}
+      </h3>
+
+      <p class="text-primary font-bold text-xl mt-1">
+        ${{ product.price }}
+      </p>
+
+    </div>
+
+    <!-- RIGHT SIDE FORM -->
+    <div class="p-6 sm:p-8">
+
+      <!-- TITLE -->
+      <div class="text-center mb-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">
+          🛒 Place Your Order
+        </h2>
+        <p class="text-gray-500 text-xs sm:text-sm">
+          Fast & Secure Checkout
+        </p>
+      </div>
+
+      <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <input type="text" name="customer_name"
+            placeholder="Full Name"
+            class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black" value="{{ product.name }}" readonly>
+
+          <input type="email" name="email"
+            placeholder="Email"
+            class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+          <input type="text" name="phone"
+            placeholder="Phone"
+            class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+          <input type="number" id="quantity" name="quantity" value="1" min="1"
+            class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+        </div>
+         <!-- City -->
+        <input type="text" name="city"
+            placeholder="City"
+            class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+        <!-- ADDRESS -->
+        <textarea name="address"
+          placeholder="Enter your address"
+          class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-black"></textarea>
+
+        <!-- BUTTON -->
+        <button type="submit"
+          class="w-full bg-black text-white p-3 rounded-xl hover:bg-gray-800 transition">
+
+          🚀 Place Order
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock base %}
