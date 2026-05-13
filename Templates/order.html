@@ -1,0 +1,145 @@
+{% extends 'header_footer.html' %}
+
+{% block base %}
+
+<div class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center px-3 sm:px-6 py-6">
+
+  <div class="bg-white shadow-2xl rounded-3xl w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+
+    <!-- LEFT SIDE IMAGE -->
+    <div class="bg-gray-100 flex flex-col items-center justify-center p-6">
+
+      {% if product.image %}
+      <img src="{{ product.image.url }}"
+           class="w-full h-72 object-cover rounded-xl shadow">
+      {% else %}
+      <div class="text-gray-400">No Image</div>
+      {% endif %}
+
+      <h3 class="mt-4 text-lg font-bold text-center">
+        {{ product.name }}
+      </h3>
+
+      <p class="text-xl font-bold text-indigo-600 mt-1">
+        ${{ product.price }}
+      </p>
+
+    </div>
+
+    <!-- RIGHT SIDE FORM -->
+    <div class="p-6 sm:p-8">
+
+      <div class="text-center mb-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">
+          🛒 Place Your Order
+        </h2>
+        <p class="text-gray-500 text-xs sm:text-sm">
+          Fast & Secure Checkout
+        </p>
+      </div>
+
+      <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <!-- CUSTOMER NAME -->
+          <div>
+            <input type="text"
+                   name="customer_name"
+                   value="{{ form.customer_name.value|default_if_none:'' }}"
+                   placeholder="Full Name"
+                   class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+            {% if form.customer_name.errors %}
+              <p class="text-red-500 text-sm mt-1">
+                {{ form.customer_name.errors.0 }}
+              </p>
+            {% endif %}
+          </div>
+
+          <!-- EMAIL -->
+          <div>
+            <input type="email"
+                   name="email"
+                   value="{{ form.email.value|default_if_none:'' }}"
+                   placeholder="Email"
+                   class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+            {% if form.email.errors %}
+              <p class="text-red-500 text-sm mt-1">
+                {{ form.email.errors.0 }}
+              </p>
+            {% endif %}
+          </div>
+
+          <!-- PHONE -->
+          <div>
+            <input type="text"
+                   name="phone"
+                   value="{{ form.phone.value|default_if_none:'' }}"
+                   placeholder="Phone"
+                   class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+            {% if form.phone.errors %}
+              <p class="text-red-500 text-sm mt-1">
+                {{ form.phone.errors.0 }}
+              </p>
+            {% endif %}
+          </div>
+
+          <!-- QUANTITY -->
+          <div>
+            <input type="number"
+                   name="quantity"
+                   value="{{ form.quantity.value|default:1 }}"
+                   min="1"
+                   class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+
+            {% if form.quantity.errors %}
+              <p class="text-red-500 text-sm mt-1">
+                {{ form.quantity.errors.0 }}
+              </p>
+            {% endif %}
+          </div>
+
+        </div>
+
+        <!-- CITY -->
+        <div>
+          <input type="text"
+                 name="city"
+                 value="{{ request.POST.city }}"
+                 placeholder="City"
+                 class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">
+        </div>
+
+        <!-- ADDRESS -->
+        <div>
+          <textarea name="address"
+                    placeholder="Enter your address"
+                    class="p-3 border rounded-xl w-full focus:ring-2 focus:ring-black">{{ form.address.value|default_if_none:'' }}</textarea>
+
+          {% if form.address.errors %}
+            <p class="text-red-500 text-sm mt-1">
+              {{ form.address.errors.0 }}
+            </p>
+          {% endif %}
+        </div>
+
+        <!-- BUTTON -->
+        <button type="submit"
+          class="w-full bg-black text-white p-3 rounded-xl hover:bg-gray-800 transition">
+
+          🚀 Place Order
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock base %}

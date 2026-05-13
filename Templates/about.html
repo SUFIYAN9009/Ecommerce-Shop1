@@ -1,0 +1,170 @@
+{% extends 'header_footer.html' %}
+
+{% block base %}
+
+<!-- HERO -->
+<section class="py-12 sm:py-16 text-center px-4">
+
+  <div class="max-w-3xl mx-auto">
+
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
+      About The Style Box
+    </h1>
+
+    <p class="text-gray-500 text-sm sm:text-base md:text-lg">
+      A modern e-commerce platform built for quality products, fast delivery, and smooth shopping experience.
+    </p>
+
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="py-14 sm:py-20 border-t">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+    <!-- TEXT -->
+    <div>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4">Our Story</h2>
+
+      <p class="text-gray-600 text-sm sm:text-base mb-4">
+        The Style Box started with a simple idea — make online shopping easier, faster, and more reliable.
+      </p>
+
+      <p class="text-gray-600 text-sm sm:text-base">
+        Today, we continue improving our platform to deliver the best user experience.
+      </p>
+    </div>
+
+    <!-- IMAGE -->
+    <div>
+      <img src="https://images.unsplash.com/photo-1555529771-835f59fc5efe?auto=format&fit=crop&w=1200&q=80"
+           class="rounded-xl shadow w-full hover:scale-105 transition duration-300"
+           alt="story">
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="py-14 sm:py-20 bg-gray-50">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10">
+      What We Do
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- CARD -->
+      <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <span class="material-symbols-outlined text-primary text-3xl">shopping_bag</span>
+        <h3 class="font-bold mt-3">Wide Product Range</h3>
+        <p class="text-gray-500 text-sm mt-2">Fashion, accessories & lifestyle products.</p>
+      </div>
+
+      <!-- CARD -->
+      <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <span class="material-symbols-outlined text-primary text-3xl">local_shipping</span>
+        <h3 class="font-bold mt-3">Fast Delivery</h3>
+        <p class="text-gray-500 text-sm mt-2">Quick and reliable delivery service.</p>
+      </div>
+
+      <!-- CARD -->
+      <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <span class="material-symbols-outlined text-primary text-3xl">payments</span>
+        <h3 class="font-bold mt-3">Secure Payments</h3>
+        <p class="text-gray-500 text-sm mt-2">Safe checkout for all orders.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- SHOP EXPERIENCE -->
+<section class="py-14 sm:py-20">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80"
+         class="rounded-xl shadow w-full hover:scale-105 transition duration-300"
+         alt="shop">
+
+    <div>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4">
+        Better Shopping Experience
+      </h2>
+
+      <p class="text-gray-600 text-sm sm:text-base mb-4">
+        Clean UI, fast loading, and easy navigation for users.
+      </p>
+
+      <p class="text-gray-600 text-sm sm:text-base">
+        Built for modern e-commerce needs.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="py-14 sm:py-20 bg-gray-50">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+
+    <h2 class="text-2xl sm:text-3xl font-bold mb-10">
+      Trusted by Thousands
+    </h2>
+
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+      <div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary">10K+</h3>
+        <p class="text-gray-500 text-sm">Customers</p>
+      </div>
+
+      <div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary">500+</h3>
+        <p class="text-gray-500 text-sm">Products</p>
+      </div>
+
+      <div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary">120+</h3>
+        <p class="text-gray-500 text-sm">Brands</p>
+      </div>
+
+      <div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary">24/7</h3>
+        <p class="text-gray-500 text-sm">Support</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-14 sm:py-20 text-center border-t">
+
+  <div class="max-w-2xl mx-auto px-4">
+
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4">
+      Start Shopping with Us
+    </h2>
+
+    <p class="text-gray-500 text-sm sm:text-base mb-6">
+      Discover amazing products at best prices.
+    </p>
+
+    <a href="/shop"
+       class="bg-primary text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition">
+      Explore Products
+    </a>
+
+  </div>
+
+</section>
+
+{% endblock base %}

@@ -1,0 +1,137 @@
+{% extends 'header_footer.html' %}
+
+{% block base %}
+
+<style>
+    .auth-wrapper {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #f8fafc, #eef2ff);
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 420px;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+
+    .auth-title {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 6px;
+    }
+
+    .auth-subtitle {
+        text-align: center;
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 25px;
+    }
+
+    .field {
+        margin-bottom: 14px;
+    }
+
+    .field label {
+        display: block;
+        font-size: 13px;
+        color: #374151;
+        margin-bottom: 6px;
+    }
+
+    .auth-card input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s;
+        background: #fafafa;
+    }
+
+    .auth-card input:focus {
+        border-color: #4f46e5;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+    }
+
+    .auth-btn {
+        width: 100%;
+        padding: 12px;
+        background: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 8px;
+    }
+
+    .auth-btn:hover {
+        background: #4338ca;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 18px;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .auth-footer a {
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="auth-title">Welcome Back</div>
+        <div class="auth-subtitle">Login to continue shopping</div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="field">
+                <label>Username</label>
+                {{ form.username }}
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Login
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Don’t have an account?
+            <a href="{% url 'signup' %}">Sign up</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock base %}
