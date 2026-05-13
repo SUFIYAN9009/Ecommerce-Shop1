@@ -84,9 +84,11 @@ def order_list(request, id):
 def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
+
         if form.is_valid():
-            form.save()
-            return redirect('login')   # 👈 send to login page
+            user = form.save()
+            login(request, user)
+            return redirect('home')
     else:
         form = UserCreationForm()
 
