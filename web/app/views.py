@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Order, Product
 from django.db.models import Q, Case, When, IntegerField
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from .forms import OrderForm
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -48,19 +51,76 @@ def product_list(request):
     })
 
 
+# ORDER (ONLY LOGIN USERS CAN ACCESS)
+@login_required(login_url='login')
+
 def order_list(request, id):
     product = get_object_or_404(Product, id=id)
 
     if request.method == "POST":
-        Order.objects.create(
-            customer_name=request.POST.get('customer_name'),
-            email=request.POST.get('email'),
-            address=request.POST.get('address'),
-            product_name=product,
-            price=product.price,
-            quantity=request.POST.get('quantity')
-        )
-        return redirect('home')
+        form = OrderForm(request.POST)
 
-    return render(request, 'order.html', {'product': product})
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            order.product_name = product
+            order.price = product.price
+            order.save()
 
+            return redirect('dashboard')
+    else:
+        form = OrderForm()
+
+    return render(request, 'order.html', {
+        'product': product,
+        'form': form
+    })
+
+
+
+
+
+# SIGNUP
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')   # 👈 send to login page
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'signup.html', {'form': form})
+
+
+
+
+@login_required(login_url='login')
+@login_required(login_url='login')
+def dashboard(request):
+    # ONLY ACTIVE ORDERS (NOT CANCELLED)
+    orders = Order.objects.filter(
+        user=request.user,
+        status="pending"
+    ).order_by('-order_date')
+
+    # TOTAL ONLY FROM ACTIVE ORDERS
+    total_amount = sum(order.price * order.quantity for order in orders)
+
+    order_count = orders.count()
+
+    return render(request, 'dashboard.html', {
+        'orders': orders,
+        'total_amount': total_amount,
+        'order_count': order_count,
+    })
+
+@login_required(login_url='login')
+def cancel_order(request, id):
+    order = get_object_or_404(Order, id=id, user=request.user)
+
+    if order.status != "cancelled":
+        order.status = "cancelled"
+        order.save()
+
+    return redirect('dashboard')
