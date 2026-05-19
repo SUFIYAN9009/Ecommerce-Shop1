@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Sum
 from .models import Order, Product
 from django.db.models import Q, Case, When, IntegerField
 from django.contrib.auth.forms import UserCreationForm
@@ -88,7 +90,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect('login')
     else:
         form = UserCreationForm()
 
@@ -126,3 +128,116 @@ def cancel_order(request, id):
         order.save()
 
     return redirect('dashboard')
+
+@staff_member_required
+def admin_dashboard(request):
+
+    # get all orders
+    orders = Order.objects.all().order_by('-order_date')
+
+    # search
+    query = request.GET.get('q')
+
+    if query:
+        orders = orders.filter(
+            customer_name__icontains=query
+        )
+
+    # total orders
+    total_orders = Order.objects.count()
+
+    # total revenue
+    total_revenue = Order.objects.aggregate(
+        Sum('price')
+    )['price__sum']
+
+    return render(request, 'admin_dashboard.html', {
+
+        'orders': orders,
+        'total_orders': total_orders,
+        'total_revenue': total_revenue,
+
+    })
+
+@staff_member_required
+def update_order_status(request, id, status):
+
+    order = get_object_or_404(Order, id=id)
+
+    order.status = status
+    order.save()
+
+    return redirect('admin_dashboard')
+
+@staff_member_required
+def delete_order(request, id):
+
+    order = get_object_or_404(Order, id=id)
+    order.delete()
+
+    return redirect('admin_dashboard')
+
+
+@staff_member_required
+def add_product(request):
+
+    if request.method == "POST":
+
+        name = request.POST['name']
+        price = request.POST['price']
+        stock = request.POST['stock']
+        description = request.POST['description']
+        image = request.FILES.get('image')  # ✅ IMPORTANT
+
+        Product.objects.create(
+            name=name,
+            price=price,
+            stock=stock,
+            description=description,
+            image=image
+        )
+
+        return redirect('product_list')
+
+    return render(request, 'product/add_product.html')
+
+@staff_member_required
+def product_list(request):
+
+    products = Product.objects.all().order_by('-id')
+
+    return render(request, 'product_list.html', {
+        'products': products
+    })
+
+@staff_member_required
+def edit_product(request, id):
+
+    product = get_object_or_404(Product, id=id)
+
+    if request.method == "POST":
+
+        product.name = request.POST['name']
+        product.price = request.POST['price']
+        product.stock = request.POST['stock']
+        product.description = request.POST['description']
+
+        # ✅ update image only if new one uploaded
+        if request.FILES.get('image'):
+            product.image = request.FILES['image']
+
+        product.save()
+
+        return redirect('product_list')
+
+    return render(request, 'edit_product.html', {
+        'product': product
+    })
+
+@staff_member_required
+def delete_product(request, id):
+
+    product = get_object_or_404(Product, id=id)
+    product.delete()
+
+    return redirect('product_list')

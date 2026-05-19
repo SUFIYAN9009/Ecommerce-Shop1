@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+<div class="p-6">
+
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+            Products Management
+        </h2>
+
+        <a href="{% url 'add_product' %}"
+   class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+    Add Product
+</a>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="bg-white rounded-2xl shadow overflow-x-auto">
+
+        <table class="w-full min-w-[700px]">
+
+            <!-- HEADER -->
+            <thead class="bg-gray-100 text-gray-600 text-sm uppercase">
+
+                <tr>
+                    <th class="p-4 text-left">Product</th>
+                    <th class="p-4 text-left">Price</th>
+                    <th class="p-4 text-left">Stock</th>
+                    <th class="p-4 text-left">Image</th>
+                    <th class="p-4 text-left">Actions</th>
+                </tr>
+
+            </thead>
+
+            <!-- BODY -->
+            <tbody class="text-gray-700">
+
+                {% for product in products %}
+
+                <tr class="border-b hover:bg-gray-50 transition">
+
+                    <!-- NAME -->
+                    <td class="p-4 font-semibold">
+                        {{ product.name }}
+                    </td>
+
+                    <!-- PRICE -->
+                    <td class="p-4 text-green-600 font-bold">
+                        Rs {{ product.price }}
+                    </td>
+
+                    <!-- STOCK -->
+                    <td class="p-4">
+                        {% if product.stock > 0 %}
+                            <span class="text-green-600 font-medium">
+                                In Stock ({{ product.stock }})
+                            </span>
+                        {% else %}
+                            <span class="text-red-500 font-medium">
+                                Out of Stock
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <!-- IMAGE -->
+                    <td class="p-4">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}"
+                                 class="w-14 h-14 object-cover rounded-lg border">
+                        {% else %}
+                            <span class="text-gray-400">No Image</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td class="p-4 flex gap-2">
+
+                        <a href="{% url 'edit_product' product.id %}"
+                           class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg text-sm">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'delete_product' product.id %}"
+                           class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

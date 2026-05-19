@@ -43,4 +43,12 @@ urlpatterns = [
     path('service/', views.service, name='service'),
     path('product/', views.product_list, name='product'),
     path('order/<int:id>/', views.order_list, name='order_form'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('order/<int:id>/<str:status>/', views.update_order_status, name='update_order_status'),
+    path('delete-order/<int:id>/', views.delete_order, name='delete_order'),
+
+    path('products/', views.product_list, name='product_list'),
+    path('products/add/', views.add_product, name='add_product'),
+    path('products/edit/<int:id>/', views.edit_product, name='edit_product'),
+    path('products/delete/<int:id>/', views.delete_product, name='delete_product'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)                

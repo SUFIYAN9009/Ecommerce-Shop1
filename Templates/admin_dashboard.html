@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+<div class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- Mobile Top Bar -->
+    <div class="md:hidden bg-gray-900 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">Admin Panel</h1>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="w-full md:w-64 bg-gray-900 text-white flex flex-col">
+
+        <div class="hidden md:block p-6 text-2xl font-bold border-b border-gray-700">
+            Admin Panel
+        </div>
+
+        <nav class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible p-3 md:p-4 gap-3 md:space-y-3">
+
+           <a href="{% url 'admin_dashboard' %}" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 whitespace-nowrap">
+             Dashboard 
+           </a>
+
+            <a href="{% url 'admin_dashboard' %}" class="px-4 py-2 rounded-lg hover:bg-gray-700 whitespace-nowrap">
+                Orders
+            </a>
+
+            <a href="{% url 'product' %}" class="px-4 py-2 rounded-lg hover:bg-gray-700 whitespace-nowrap">
+                Products
+            </a>
+
+            <a class="px-4 py-2 rounded-lg hover:bg-red-600 whitespace-nowrap">
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 md:p-8">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-6">
+
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
+                Dashboard Overview
+            </h1>
+
+            <div class="text-gray-500 text-sm md:text-base">
+                Welcome Admin
+            </div>
+
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
+
+            <div class="bg-white p-5 md:p-6 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-500 text-sm">Total Orders</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                    {{ total_orders }}
+                </h2>
+            </div>
+
+            <div class="bg-white p-5 md:p-6 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-500 text-sm">Revenue</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-green-600">
+                    Rs {{ total_revenue }}
+                </h2>
+            </div>
+
+            <div class="bg-white p-5 md:p-6 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-500 text-sm">System Status</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-blue-600">
+                    Active
+                </h2>
+            </div>
+
+        </div>
+
+        <!-- Search -->
+        <form method="GET" class="flex flex-col sm:flex-row gap-3 mb-6">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search customer..."
+                class="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl">
+                Search
+            </button>
+
+        </form>
+
+        <!-- Table -->
+        <div class="bg-white rounded-2xl shadow overflow-x-auto">
+
+            <table class="w-full min-w-[700px]">
+
+                <thead class="bg-gray-100 text-gray-600 text-sm">
+
+                    <tr>
+                        <th class="p-4 text-left">User</th>
+                        <th class="p-4 text-left">Product</th>
+                        <th class="p-4 text-left">Qty</th>
+                        <th class="p-4 text-left">Total</th>
+                        <th class="p-4 text-left">Status</th>
+                        <th class="p-4 text-left">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody class="text-gray-700">
+
+                    {% for order in orders %}
+
+                    <tr class="border-b hover:bg-gray-50 transition">
+
+                        <td class="p-4 font-medium">
+                            {{ order.user.username }}
+                        </td>
+
+                        <td class="p-4">
+                            {{ order.product_name }}
+                        </td>
+
+                        <td class="p-4">
+                            {{ order.quantity }}
+                        </td>
+
+                        <td class="p-4 font-semibold">
+                            Rs {{ order.price }}
+                        </td>
+
+                        <td class="p-4">
+
+                            <span class="px-3 py-1 text-xs md:text-sm rounded-full text-white
+                                {% if order.status == 'Pending' %}
+                                    bg-yellow-500
+                                {% elif order.status == 'Delivered' %}
+                                    bg-green-500
+                                {% else %}
+                                    bg-blue-500
+                                {% endif %}
+                            ">
+                                {{ order.status }}
+                            </span>
+
+                        </td>
+
+                        <!-- ACTIONS -->
+                        <td class="p-4 flex flex-wrap gap-2">
+
+                            <!-- Processing -->
+                            <a href="{% url 'update_order_status' order.id 'Processing' %}"
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded text-xs">
+                                Processing
+                            </a>
+
+                            <!-- Delivered -->
+                            <a href="{% url 'update_order_status' order.id 'Delivered' %}"
+                               class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs">
+                                Delivered
+                            </a>
+
+                            <!-- Delete -->
+                            <a href="{% url 'delete_order' order.id %}"
+                               class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
