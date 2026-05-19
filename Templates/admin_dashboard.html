@@ -5,188 +5,246 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-50">
 
-<div class="flex flex-col md:flex-row min-h-screen">
+<div class="flex min-h-screen">
 
-    <!-- Mobile Top Bar -->
-    <div class="md:hidden bg-gray-900 text-white p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">Admin Panel</h1>
+    <!-- MOBILE TOP BAR -->
+    <div class="md:hidden fixed top-0 left-0 right-0 bg-gray-900 text-white p-4 flex justify-between items-center z-50">
+        <h1 class="font-bold text-lg">Admin Panel</h1>
     </div>
 
-    <!-- Sidebar -->
-    <aside class="w-full md:w-64 bg-gray-900 text-white flex flex-col">
+    <!-- SIDEBAR (DESKTOP) -->
+    <aside class="hidden md:flex w-64 bg-gray-900 text-white flex-col fixed h-full">
 
-        <div class="hidden md:block p-6 text-2xl font-bold border-b border-gray-700">
+        <div class="p-6 text-2xl font-bold border-b border-gray-800">
             Admin Panel
         </div>
 
-        <nav class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible p-3 md:p-4 gap-3 md:space-y-3">
+        <nav class="p-4 space-y-2 text-sm">
 
-           <a href="{% url 'admin_dashboard' %}" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 whitespace-nowrap">
-             Dashboard 
-           </a>
-
-            <a href="{% url 'admin_dashboard' %}" class="px-4 py-2 rounded-lg hover:bg-gray-700 whitespace-nowrap">
-                Orders
+            <a href="{% url 'admin_dashboard' %}"
+               class="block px-4 py-2 rounded-lg bg-gray-800">
+                Dashboard
             </a>
 
-            <a href="{% url 'product' %}" class="px-4 py-2 rounded-lg hover:bg-gray-700 whitespace-nowrap">
+            <a href="{% url 'product_list' %}"
+               class="block px-4 py-2 rounded-lg hover:bg-gray-800">
                 Products
             </a>
 
-            <a class="px-4 py-2 rounded-lg hover:bg-red-600 whitespace-nowrap">
+            <a href="{% url 'admin_dashboard' %}"
+               class="block px-4 py-2 rounded-lg hover:bg-gray-800">
+                Orders
+            </a>
+
+            <a href="#"
+               class="block px-4 py-2 rounded-lg hover:bg-red-600">
                 Logout
             </a>
 
         </nav>
-
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-4 md:p-8">
+    <!-- MAIN -->
+    <main class="flex-1 md:ml-64 pt-16 md:pt-0">
 
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-6">
+        <!-- HEADER -->
+        <div class="bg-white border-b sticky top-0 z-40">
+            <div class="p-4 md:p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
 
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
-                Dashboard Overview
-            </h1>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-800">
+                        Dashboard
+                    </h1>
+                    <p class="text-sm text-gray-500">
+                        Overview of your store activity
+                    </p>
+                </div>
 
-            <div class="text-gray-500 text-sm md:text-base">
-                Welcome Admin
+                <div class="text-sm text-gray-500">
+                    Welcome, Admin
+                </div>
+
             </div>
-
         </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
+        <div class="p-4 md:p-6">
 
-            <div class="bg-white p-5 md:p-6 rounded-2xl shadow hover:shadow-lg transition">
-                <p class="text-gray-500 text-sm">Total Orders</p>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
-                    {{ total_orders }}
-                </h2>
+            <!-- STATS (RESPONSIVE) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm">
+                    <p class="text-gray-500 text-sm">Total Orders</p>
+                    <h2 class="text-2xl font-bold mt-1">{{ total_orders }}</h2>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm">
+                    <p class="text-gray-500 text-sm">Revenue</p>
+                    <h2 class="text-2xl font-bold text-green-600 mt-1">
+                        Rs {{ total_revenue }}
+                    </h2>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm">
+                    <p class="text-gray-500 text-sm">System Status</p>
+                    <h2 class="text-2xl font-bold text-blue-600 mt-1">
+                        Active
+                    </h2>
+                </div>
+
             </div>
 
-            <div class="bg-white p-5 md:p-6 rounded-2xl shadow hover:shadow-lg transition">
-                <p class="text-gray-500 text-sm">Revenue</p>
-                <h2 class="text-2xl md:text-3xl font-bold text-green-600">
-                    Rs {{ total_revenue }}
-                </h2>
-            </div>
+            <!-- TABLE CARD -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
 
-            <div class="bg-white p-5 md:p-6 rounded-2xl shadow hover:shadow-lg transition">
-                <p class="text-gray-500 text-sm">System Status</p>
-                <h2 class="text-2xl md:text-3xl font-bold text-blue-600">
-                    Active
-                </h2>
-            </div>
+                <div class="p-4 border-b flex justify-between items-center">
+                    <h2 class="font-semibold text-gray-800">Recent Orders</h2>
+                    <span class="text-sm text-gray-500">
+                        {{ orders|length }} orders
+                    </span>
+                </div>
 
-        </div>
+                <!-- DESKTOP TABLE -->
+                <div class="hidden md:block overflow-x-auto">
 
-        <!-- Search -->
-        <form method="GET" class="flex flex-col sm:flex-row gap-3 mb-6">
+                    <table class="w-full min-w-[900px] text-sm">
 
-            <input
-                type="text"
-                name="q"
-                placeholder="Search customer..."
-                class="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+                        <thead class="bg-gray-50 text-gray-600 text-xs uppercase">
+                            <tr>
+                                <th class="p-4 text-left">User</th>
+                                <th class="p-4 text-left">Product</th>
+                                <th class="p-4 text-left">Qty</th>
+                                <th class="p-4 text-left">Total</th>
+                                <th class="p-4 text-left">Status</th>
+                                <th class="p-4 text-left">Actions</th>
+                            </tr>
+                        </thead>
 
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl">
-                Search
-            </button>
+                        <tbody class="divide-y">
 
-        </form>
+                        {% for order in orders %}
+                        <tr class="hover:bg-gray-50">
 
-        <!-- Table -->
-        <div class="bg-white rounded-2xl shadow overflow-x-auto">
+                            <td class="p-4 font-medium">
+                                {{ order.user.username }}
+                            </td>
 
-            <table class="w-full min-w-[700px]">
+                            <td class="p-4">
+                                {{ order.product.name }}
+                            </td>
 
-                <thead class="bg-gray-100 text-gray-600 text-sm">
+                            <td class="p-4">
+                                {{ order.quantity }}
+                            </td>
 
-                    <tr>
-                        <th class="p-4 text-left">User</th>
-                        <th class="p-4 text-left">Product</th>
-                        <th class="p-4 text-left">Qty</th>
-                        <th class="p-4 text-left">Total</th>
-                        <th class="p-4 text-left">Status</th>
-                        <th class="p-4 text-left">Actions</th>
-                    </tr>
+                            <td class="p-4 font-semibold">
+                                Rs {{ order.price }}
+                            </td>
 
-                </thead>
+                            <td class="p-4">
+                                {% if order.status == "Pending" %}
+                                    <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                                        Pending
+                                    </span>
+                                {% elif order.status == "Delivered" %}
+                                    <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                                        Delivered
+                                    </span>
+                                {% elif order.status == "cancelled" %}
+                                    <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">
+                                        Cancelled
+                                    </span>
+                                {% else %}
+                                    <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                                        Processing
+                                    </span>
+                                {% endif %}
+                            </td>
 
-                <tbody class="text-gray-700">
+                            <td class="p-4">
+                                <div class="flex flex-wrap gap-2">
+
+                                    <a href="{% url 'update_order_status' order.id 'Processing' %}"
+                                       class="px-3 py-1 text-xs rounded-lg bg-yellow-500 text-white">
+                                        Processing
+                                    </a>
+
+                                    <a href="{% url 'update_order_status' order.id 'Delivered' %}"
+                                       class="px-3 py-1 text-xs rounded-lg bg-green-600 text-white">
+                                        Delivered
+                                    </a>
+
+                                    {% if order.status != 'cancelled' %}
+                                    <a href="{% url 'cancel_order' order.id %}"
+                                       class="px-3 py-1 text-xs rounded-lg bg-red-500 text-white">
+                                        Cancel
+                                    </a>
+                                    {% else %}
+                                    <span class="text-xs text-red-600 font-semibold">
+                                        Cancelled
+                                    </span>
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <!-- MOBILE CARDS -->
+                <div class="md:hidden p-4 space-y-4">
 
                     {% for order in orders %}
+                    <div class="border rounded-xl p-4 bg-gray-50">
 
-                    <tr class="border-b hover:bg-gray-50 transition">
-
-                        <td class="p-4 font-medium">
-                            {{ order.user.username }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ order.product_name }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ order.quantity }}
-                        </td>
-
-                        <td class="p-4 font-semibold">
-                            Rs {{ order.price }}
-                        </td>
-
-                        <td class="p-4">
-
-                            <span class="px-3 py-1 text-xs md:text-sm rounded-full text-white
-                                {% if order.status == 'Pending' %}
-                                    bg-yellow-500
-                                {% elif order.status == 'Delivered' %}
-                                    bg-green-500
-                                {% else %}
-                                    bg-blue-500
-                                {% endif %}
-                            ">
+                        <div class="flex justify-between">
+                            <h3 class="font-semibold">{{ order.user.username }}</h3>
+                            <span class="text-xs px-2 py-1 rounded bg-gray-200">
                                 {{ order.status }}
                             </span>
+                        </div>
 
-                        </td>
+                        <p class="text-sm text-gray-600 mt-1">
+                            {{ order.product.name }}
+                        </p>
 
-                        <!-- ACTIONS -->
-                        <td class="p-4 flex flex-wrap gap-2">
+                        <p class="text-sm mt-1">
+                            Qty: {{ order.quantity }} | Rs {{ order.price }}
+                        </p>
 
-                            <!-- Processing -->
+                        <div class="flex gap-2 mt-3 flex-wrap">
+
                             <a href="{% url 'update_order_status' order.id 'Processing' %}"
-                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded text-xs">
+                               class="text-xs bg-yellow-500 text-white px-2 py-1 rounded">
                                 Processing
                             </a>
 
-                            <!-- Delivered -->
                             <a href="{% url 'update_order_status' order.id 'Delivered' %}"
-                               class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs">
+                               class="text-xs bg-green-600 text-white px-2 py-1 rounded">
                                 Delivered
                             </a>
 
-                            <!-- Delete -->
-                            <a href="{% url 'delete_order' order.id %}"
-                               class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">
-                                Delete
+                            {% if order.status != 'cancelled' %}
+                            <a href="{% url 'cancel_order' order.id %}"
+                               class="text-xs bg-red-500 text-white px-2 py-1 rounded">
+                                Cancel
                             </a>
+                            {% endif %}
 
-                        </td>
+                        </div>
 
-                    </tr>
-
+                    </div>
                     {% endfor %}
 
-                </tbody>
+                </div>
 
-            </table>
+            </div>
 
         </div>
 

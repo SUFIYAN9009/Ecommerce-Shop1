@@ -199,7 +199,7 @@ def add_product(request):
 
         return redirect('product_list')
 
-    return render(request, 'product/add_product.html')
+    return render(request, 'add_product.html')
 
 @staff_member_required
 def product_list(request):
@@ -241,3 +241,18 @@ def delete_product(request, id):
     product.delete()
 
     return redirect('product_list')
+
+def cancel_order(request, order_id):
+    order = Order.objects.get(id=order_id, user=request.user)
+
+    order.status = 'cancelled'
+    order.save()
+
+    return redirect('admin_dashboard')
+
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user)
+
+    return render(request, 'orders/my_orders.html', {
+        'orders': orders
+    })

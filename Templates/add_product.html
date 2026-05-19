@@ -1,13 +1,120 @@
-<h2>Add Product</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-<form method="POST">
-    {% csrf_token %}
+<body class="bg-gray-100 min-h-screen">
 
-    <input type="text" name="name" placeholder="Product Name"><br><br>
-    <input type="number" name="price" placeholder="Price"><br><br>
-    <input type="number" name="stock" placeholder="Stock"><br><br>
-    <textarea name="description" placeholder="Description"></textarea><br><br>
-     <input type="file" name="image"><br><br>
+<!-- TOP BAR -->
+<div class="sticky top-0 z-10 bg-white border-b shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
-    <button type="submit">Add Product</button>
-</form>
+        <div>
+            <h1 class="text-lg font-bold text-gray-800">Products</h1>
+            <p class="text-xs text-gray-500">Create new product listing</p>
+        </div>
+
+        <a href="{% url 'product' %}"
+           class="text-sm px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
+            ← Back
+        </a>
+
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="max-w-6xl mx-auto p-6">
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- LEFT INFO -->
+        <div class="lg:col-span-1 bg-gradient-to-br from-emerald-600 to-green-700 text-white rounded-2xl p-6 shadow-lg">
+
+            <h2 class="text-2xl font-bold">Smart Product Creation</h2>
+
+            <p class="text-emerald-100 text-sm mt-3 leading-relaxed">
+                Add optimized product listings with structured data, better inventory tracking, and scalable e-commerce design.
+            </p>
+
+            <div class="mt-6 space-y-2 text-sm text-emerald-100">
+                <p>✔ Fast product entry</p>
+                <p>✔ Clean database structure</p>
+                <p>✔ Image optimized workflow</p>
+                <p>✔ Admin-level control</p>
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
+
+            <h2 class="text-xl font-bold text-gray-800 mb-6">Product Information</h2>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-5">
+                {% csrf_token %}
+
+                <!-- NAME -->
+                <div>
+                    <label class="text-sm text-gray-600">Product Name</label>
+                    <input type="text" name="name"
+                        class="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 outline-none">
+                </div>
+
+                <!-- PRICE / STOCK -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <div>
+                        <label class="text-sm text-gray-600">Price (PKR)</label>
+                        <input type="number" name="price"
+                            class="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-200">
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-600">Stock</label>
+                        <input type="number" name="stock"
+                            class="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-200">
+                    </div>
+
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div>
+                    <label class="text-sm text-gray-600">Description</label>
+                    <textarea name="description" rows="4"
+                        class="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-200 resize-none"></textarea>
+                </div>
+
+                <!-- IMAGE -->
+                <div>
+                    <label class="text-sm text-gray-600">Product Image</label>
+                    <input type="file" name="image"
+                        class="w-full mt-2 px-4 py-3 border rounded-xl bg-gray-50">
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="flex gap-3 pt-4">
+
+                    <button type="submit"
+                        class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-semibold shadow-md transition">
+                        Save Product
+                    </button>
+
+                    <a href="{% url 'product' %}"
+                        class="flex-1 text-center bg-gray-100 hover:bg-gray-200 py-3 rounded-xl font-semibold text-gray-700 transition">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
