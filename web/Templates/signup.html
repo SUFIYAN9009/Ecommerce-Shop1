@@ -47,21 +47,26 @@
         margin-bottom: 6px;
     }
 
-    .auth-card input {
+    input {
         width: 100%;
         padding: 12px 14px;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
         font-size: 14px;
-        outline: none;
-        transition: 0.2s;
         background: #fafafa;
     }
 
-    .auth-card input:focus {
+    input:focus {
         border-color: #4f46e5;
         background: #fff;
         box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+        outline: none;
+    }
+
+    .error {
+        color: #ef4444;
+        font-size: 12px;
+        margin-top: 4px;
     }
 
     .auth-btn {
@@ -74,7 +79,6 @@
         font-size: 15px;
         font-weight: 600;
         cursor: pointer;
-        transition: 0.3s;
         margin-top: 10px;
     }
 
@@ -91,12 +95,8 @@
 
     .auth-footer a {
         color: #4f46e5;
-        text-decoration: none;
         font-weight: 600;
-    }
-
-    .auth-footer a:hover {
-        text-decoration: underline;
+        text-decoration: none;
     }
 </style>
 
@@ -110,20 +110,41 @@
         <form method="post">
             {% csrf_token %}
 
+            <!-- USERNAME -->
             <div class="field">
                 <label>Username</label>
                 {{ form.username }}
+                {% for error in form.username.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
             </div>
 
+            <!-- PASSWORD -->
             <div class="field">
                 <label>Password</label>
                 {{ form.password1 }}
+                {% for error in form.password1.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
             </div>
 
+            <!-- CONFIRM PASSWORD -->
             <div class="field">
                 <label>Confirm Password</label>
                 {{ form.password2 }}
+                {% for error in form.password2.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
             </div>
+
+            <!-- NON FIELD ERRORS (IMPORTANT) -->
+            {% if form.non_field_errors %}
+                <div class="error">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <button type="submit" class="auth-btn">
                 Sign Up
